@@ -10,12 +10,12 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 # Check root
-if [ "$EUID" -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
   echo -e "${RED}Please run as root${NC}"
   exit 1
 fi
 
-function show_menu() {
+show_menu() {
     clear
     echo -e "${CYAN}=================================${NC}"
     echo -e "${CYAN}   Hysteria 2 Manager Script     ${NC}"
@@ -43,17 +43,17 @@ function show_menu() {
     esac
 }
 
-function install_hysteria() {
+install_hysteria() {
     echo -e "${GREEN}Starting official Hysteria 2 installation...${NC}"
     bash <(curl -fsSL https://get.hy2.sh/)
     echo -e "${GREEN}Installation completed.${NC}"
     read -p "Press Enter to return to menu..."
 }
 
-function uninstall_hysteria() {
+uninstall_hysteria() {
     echo -e "${YELLOW}WARNING: This will remove Hysteria 2 from your system.${NC}"
     read -p "Are you sure? [y/N]: " confirm
-    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+    if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
         systemctl stop hysteria-server
         systemctl disable hysteria-server
         rm -f /etc/systemd/system/hysteria-server.service
@@ -61,7 +61,7 @@ function uninstall_hysteria() {
         systemctl daemon-reload
         rm -f /usr/local/bin/hysteria
         read -p "Do you want to remove configuration files (/etc/hysteria)? [y/N]: " rm_config
-        if [[ "$rm_config" =~ ^[Yy]$ ]]; then
+        if [ "$rm_config" = "y" ] || [ "$rm_config" = "Y" ]; then
             rm -rf /etc/hysteria
             echo -e "${GREEN}Configuration files removed.${NC}"
         fi
@@ -72,11 +72,11 @@ function uninstall_hysteria() {
     read -p "Press Enter to return to menu..."
 }
 
-function generate_random_password() {
+generate_random_password() {
     LC_ALL=C tr -dc A-Za-z0-9 </dev/urandom | head -c 16
 }
 
-function configure_hysteria() {
+configure_hysteria() {
     mkdir -p /etc/hysteria
     CONFIG_FILE="/etc/hysteria/config.yaml"
     
@@ -186,7 +186,7 @@ EOF
 
     read -p "Do you want to restart hysteria-server now to apply changes? [Y/n]: " restart_choice
     restart_choice=${restart_choice:-Y}
-    if [[ "$restart_choice" =~ ^[Yy]$ ]]; then
+    if [ "$restart_choice" = "y" ] || [ "$restart_choice" = "Y" ]; then
         systemctl restart hysteria-server
         echo -e "${GREEN}Service restarted.${NC}"
     fi

@@ -255,7 +255,7 @@ EOF
     fi
     current_date=$(date +%Y%m%d)
     
-    client_link="hysteria2://${password}@${public_ip}:${port}/?SNI=${link_sni}&insecure=${insecure}#Hysteria-${current_date}"
+    client_link="hysteria2://${password}@${public_ip}:${port}/?SNI=${link_sni}&insecure=${insecure}&allowInsecure=0#Hysteria-${current_date}"
     printf "\n${CYAN}=================================${NC}\n"
     printf "${GREEN}客户端连接链接:${NC}\n"
     printf "%s\n" "${client_link}"
@@ -356,7 +356,7 @@ generate_client_link() {
     local current_date=$(date +%Y%m%d)
     
     # 生成客户端链接
-    local client_link="hysteria2://${password}@${public_ip}:${listen_port}/?SNI=${sni}&insecure=${insecure}#Hysteria-${current_date}"
+    local client_link="hysteria2://${password}@${public_ip}:${listen_port}/?SNI=${sni}&insecure=${insecure}&allowInsecure=0#Hysteria-${current_date}"
     
     # 显示链接
     printf "\n${CYAN}=================================${NC}\n"

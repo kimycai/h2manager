@@ -296,12 +296,16 @@ view_certificate() {
     if [ ! -f "$cert_file" ]; then
         printf "${RED}证书文件未找到: $cert_file${NC}\n"
         printf "${YELLOW}请先运行配置向导.${NC}\n"
+        printf "按回车键返回菜单..."
+        read dummy
         return 1
     fi
     
     # 直接显示证书 PEM 内容
     cat "$cert_file"
     printf "\n"
+    printf "按回车键返回菜单..."
+    read dummy
 }
 
 # 生成客户端链接

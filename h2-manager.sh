@@ -1,7 +1,7 @@
 #!/bin/sh
 # hysteria-manager.sh
 # description: official Hysteria 2 installation, uninstallation, and configuration wizard
-
+#可管理版本
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
